@@ -1,0 +1,35 @@
+Reverse Linked List II
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        for(int i = 0; i < n - m; i++){
+            //defined positions used for finding right nodes
+            int position1 = m + i;
+            int position2 = n - i;
+            if(position1 >= position2){ return head; }
+            
+            ListNode cur1 = head;
+            ListNode cur2 = head;
+            while(position1 - 1 > 0){
+                cur1 = cur1.next;
+                position1--;
+            }
+            while(position2 - 1 > 0){
+                cur2 = cur2.next;
+                position2--;
+            }
+            
+            int temp = cur1.val;
+            cur1.val = cur2.val;
+            cur2.val = temp;
+        }
+        return head;
+    }
+}
