@@ -1,0 +1,118 @@
+ //Remove Duplicates from Sorted List II
+ /**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+*/
+public class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        head = dummy;
+
+ ListNode pre = head;
+        while ((pre.next != null) && (pre != null)) {                 //traverse the whole list
+             ListNode p = pre.next;                                  // ListNode P 必须在while里面，因为p的位置需要根据pre当前所在位置判断
+            while (p.next != null && p.val == p.next.val) {          //这里 && 前后一定不能换位置，必须先判断pre.next != null
+                p = p.next;                                          //when finding next.val = next.next.val, we move the p reference
+            }
+        if (p != pre.next) {                                         // find where pre.next should go
+        pre.next = p.next;
+        }
+        else {
+        pre = pre.next;
+        }
+    }
+        return dummy.next;
+    }
+        
+}
+
+
+
+
+//Reverse Linked List II
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode reverseBetween(ListNode head, int m, int n) {
+        if (m >= n || head == null) {
+            return head;
+        }
+        ListNode newHead = new ListNode(0);
+        newHead.next = head;
+        head = newHead;
+        
+        for (int i = 1; i < m; i++){
+            if (head == null) {
+                return null;
+            }
+            head = head.next;
+        }
+        
+        ListNode premNode = head;
+        ListNode mNode = head.next;
+        ListNode nNode = mNode;
+        ListNode postnNode = mNode.next;
+        for (int i = m; i < n; i++) {
+            if (postnNode == null) {
+                return null;
+            }
+            ListNode temp = postnNode.next;
+            postnNode.next = nNode;
+            nNode = postnNode;
+            postnNode = temp;
+        }
+        premNode.next = nNode;
+        mNode.next = postnNode;
+        
+        return newHead.next;
+    }
+}
+
+
+
+// Merge Two Sorted Lists
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        ListNode result = null;
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        
+        if (l1.val < l2.val) {
+            result = l1;
+            result.next = mergeTwoLists(l1.next, l2);
+        }
+        else {
+            result = l2;
+            result.next = mergeTwoLists(l1, l2.next);
+        }
+        return result;
+        
+    }
+}
